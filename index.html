@@ -23,19 +23,6 @@
       position: relative;
     }
 
-    /* قلوب متساقطة بالخلفية */
-    body::before {
-      content: "🌸 🎀 💖 🎀 🌸 💖 🌸 🎀";
-      position: absolute;
-      top: -20px;
-      left: 0;
-      right: 0;
-      font-size: 1.5rem;
-      opacity: 0.3;
-      letter-spacing: 20px;
-      text-align: center;
-    }
-
     .header-title {
       font-size: 1.8rem;
       font-weight: 800;
@@ -48,23 +35,40 @@
       text-align: center;
       width: 90%;
       max-width: 380px;
-      padding: 25px 20px;
-      background: rgba(255, 255, 255, 0.85);
+      padding: 30px 20px;
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(8px);
       border-radius: 30px;
       box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
       border: 3px solid #ffb6c1;
       position: relative;
+      z-index: 5;
     }
 
-    /* أيقونة هيلو كيتي في الأعلى */
+    /* هيلو كيتي في منتصف كارت الواجهة */
     .kitty-head {
-      width: 70px;
-      height: 70px;
-      margin: -50px auto 10px auto;
+      width: 75px;
+      height: 75px;
+      margin: -55px auto 10px auto;
       background: url('https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_art.png') no-repeat center/contain;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
     }
+
+    /* صور هيلو كيتي في زوايا الشاشة 🌸 */
+    .corner-kitty {
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      background: url('https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_art.png') no-repeat center/contain;
+      z-index: 10;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.3));
+    }
+
+    .top-left     { top: 15px; left: 15px; transform: rotate(-15deg); }
+    .top-right    { top: 15px; right: 15px; transform: rotate(15deg); }
+    .bottom-left  { bottom: 15px; left: 15px; transform: rotate(10deg); }
+    .bottom-right { bottom: 15px; right: 15px; transform: rotate(-10deg); }
 
     .hidden {
       display: none !important;
@@ -178,7 +182,11 @@
 </head>
 <body>
 
-  <!-- الواجهة الأولى -->
+  <div class="corner-kitty top-left"></div>
+  <div class="corner-kitty top-right"></div>
+  <div class="corner-kitty bottom-left"></div>
+  <div class="corner-kitty bottom-right"></div>
+
   <div id="screen1" class="container">
     <div class="kitty-head"></div>
     <div class="header-title">اموت بيچ مرتي 🎀</div>
@@ -187,7 +195,6 @@
     <button class="btn" onclick="startApp()">اضغطي هنا شهدتي 🌸</button>
   </div>
 
-  <!-- الواجهة الثانية -->
   <div id="screen2" class="container hidden">
     <div class="kitty-head"></div>
     <div class="header-title">اموت بيچ مرتي 🎀</div>
@@ -204,7 +211,6 @@
     <div id="statusText"></div>
   </div>
 
-  <!-- ملف الصوت -->
   <audio id="myAudio" src="song.mp3" preload="auto" playsinline webkit-playsinline></audio>
 
   <script>
