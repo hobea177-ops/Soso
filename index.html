@@ -3,34 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>موقع شهدتي الكلاسيكي</title>
+  <title>موقع شهدتي - Hello Kitty</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background: #121212;
-      color: #fff;
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+      color: #5a3d46;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       overflow: hidden;
+      position: relative;
+    }
+
+    /* قلوب متساقطة بالخلفية */
+    body::before {
+      content: "🌸 🎀 💖 🎀 🌸 💖 🌸 🎀";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      right: 0;
+      font-size: 1.5rem;
+      opacity: 0.3;
+      letter-spacing: 20px;
+      text-align: center;
+    }
+
+    .header-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ff3366;
+      margin-bottom: 12px;
+      text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
     }
 
     .container {
       text-align: center;
       width: 90%;
       max-width: 380px;
-      padding: 30px 20px;
-      background: #1e1e1e;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      border: 1px solid #333;
+      padding: 25px 20px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 30px;
+      box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
+      border: 3px solid #ffb6c1;
+      position: relative;
+    }
+
+    /* أيقونة هيلو كيتي في الأعلى */
+    .kitty-head {
+      width: 70px;
+      height: 70px;
+      margin: -50px auto 10px auto;
+      background: url('https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_art.png') no-repeat center/contain;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
     }
 
     .hidden {
@@ -38,7 +71,7 @@
     }
 
     .btn {
-      background: linear-gradient(45deg, #d4af37, #aa7c11);
+      background: linear-gradient(45deg, #ff6b81, #ff4757);
       color: #fff;
       border: none;
       padding: 14px 32px;
@@ -46,9 +79,9 @@
       font-weight: bold;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
       transition: all 0.3s ease;
-      margin-top: 20px;
+      margin-top: 15px;
       outline: none;
     }
 
@@ -58,30 +91,31 @@
 
     .player-box {
       position: relative;
-      width: 230px;
-      height: 230px;
-      margin: 20px auto;
-      background: #2a2a2a;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: inset 0 0 10px #000;
+      width: 220px;
+      height: 220px;
+      margin: 15px auto;
+      background: #fff0f3;
+      border-radius: 25px;
+      padding: 15px;
+      border: 2px dashed #ff8fa3;
+      box-shadow: inset 0 0 10px rgba(255, 182, 193, 0.5);
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .record {
-      width: 180px;
-      height: 180px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
       background: repeating-radial-gradient(
         circle,
-        #0c0c0c,
-        #0c0c0c 5px,
-        #1a1a1a 6px,
-        #1a1a1a 7px
+        #2b2b2b,
+        #2b2b2b 5px,
+        #3a3a3a 6px,
+        #3a3a3a 7px
       );
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
       position: relative;
       display: flex;
       justify-content: center;
@@ -91,9 +125,9 @@
     .record-label {
       width: 60px;
       height: 60px;
-      background: radial-gradient(circle, #d4af37 0%, #aa7c11 100%);
+      background: radial-gradient(circle, #ffb6c1 0%, #ff69b4 100%);
       border-radius: 50%;
-      border: 3px solid #111;
+      border: 3px solid #fff;
       position: relative;
       display: flex;
       justify-content: center;
@@ -101,39 +135,24 @@
     }
 
     .record-label::after {
-      content: '';
-      width: 10px;
-      height: 10px;
-      background: #2a2a2a;
-      border-radius: 50%;
-      border: 2px solid #fff;
+      content: '🎀';
+      font-size: 12px;
     }
 
     .tone-arm {
       position: absolute;
       top: 15px;
       right: 15px;
-      width: 60px;
-      height: 70px;
-      border-right: 4px solid #d4af37;
-      border-top: 4px solid #d4af37;
+      width: 55px;
+      height: 65px;
+      border-right: 4px solid #ff4757;
+      border-top: 4px solid #ff4757;
       border-radius: 0 15px 0 0;
       transform-origin: top right;
       transform: rotate(-30deg);
       transition: transform 0.8s ease-in-out;
       pointer-events: none;
       z-index: 10;
-    }
-
-    .tone-arm::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: -8px;
-      width: 12px;
-      height: 18px;
-      background: #888;
-      border-radius: 3px;
     }
 
     .spinning {
@@ -152,7 +171,8 @@
     #statusText {
       margin-top: 10px;
       font-size: 0.85rem;
-      color: #ff6b6b;
+      color: #ff3366;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -160,14 +180,18 @@
 
   <!-- الواجهة الأولى -->
   <div id="screen1" class="container">
-    <h2 style="color: #d4af37; margin-bottom: 10px;">أهلاً بكِ شهدتي</h2>
-    <p style="color: #aaa; font-size: 0.9rem;">اضغطي للانتقال للواجهة الموسيقية</p>
-    <button class="btn" onclick="startApp()">اضغطي هنا شهدتي</button>
+    <div class="kitty-head"></div>
+    <div class="header-title">اموت بيچ مرتي 🎀</div>
+    <h3 style="color: #ff4d6d; margin-bottom: 8px;">أهلاً بكِ شهدتي 💖</h3>
+    <p style="color: #884455; font-size: 0.9rem;">اضغطي للانتقال للواجهة الموسيقية</p>
+    <button class="btn" onclick="startApp()">اضغطي هنا شهدتي 🌸</button>
   </div>
 
   <!-- الواجهة الثانية -->
   <div id="screen2" class="container hidden">
-    <h3 style="color: #d4af37; margin-bottom: 15px;">مشغل شهدتي الكلاسيكي</h3>
+    <div class="kitty-head"></div>
+    <div class="header-title">اموت بيچ مرتي 🎀</div>
+    <h3 style="color: #ff4d6d; margin-bottom: 10px;">مشغل شهدتي الوردي 🎀</h3>
 
     <div class="player-box">
       <div id="arm" class="tone-arm"></div>
@@ -176,7 +200,7 @@
       </div>
     </div>
 
-    <button id="playBtn" class="btn" onclick="toggleAudio()">تشغيل الموسيقى</button>
+    <button id="playBtn" class="btn" onclick="toggleAudio()">تشغيل الموسيقى 🎵</button>
     <div id="statusText"></div>
   </div>
 
@@ -194,7 +218,6 @@
       document.getElementById('screen1').classList.add('hidden');
       document.getElementById('screen2').classList.remove('hidden');
       
-      // تهيئة الصوت
       audio.play().then(function() {
         audio.pause();
       }).catch(function(e) {
@@ -211,7 +234,7 @@
           playPromise.then(function() {
             record.classList.add('spinning');
             arm.classList.add('arm-active');
-            btn.innerText = "إيقاف الموسيقى";
+            btn.innerText = "إيقاف الموسيقى 💖";
           }).catch(function(error) {
             console.log("Error:", error);
             statusText.innerText = "تعذر العثور على ملف song.mp3 أو تشغيله.";
@@ -221,7 +244,7 @@
         audio.pause();
         record.classList.remove('spinning');
         arm.classList.remove('arm-active');
-        btn.innerText = "تشغيل الموسيقى";
+        btn.innerText = "تشغيل الموسيقى 🎵";
       }
     }
   </script>
