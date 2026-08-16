@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>موقع شهدتي الكلاسيكي</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #121212;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 380px;
+      padding: 30px 20px;
+      background: #1e1e1e;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      border: 1px solid #333;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .btn {
+      background: linear-gradient(45deg, #d4af37, #aa7c11);
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      outline: none;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .player-box {
+      position: relative;
+      width: 230px;
+      height: 230px;
+      margin: 20px auto;
+      background: #2a2a2a;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: inset 0 0 10px #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .record {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle,
+        #0c0c0c,
+        #0c0c0c 5px,
+        #1a1a1a 6px,
+        #1a1a1a 7px
+      );
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .record-label {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #d4af37 0%, #aa7c11 100%);
+      border-radius: 50%;
+      border: 3px solid #111;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .record-label::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #2a2a2a;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+
+    .tone-arm {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 60px;
+      height: 70px;
+      border-right: 4px solid #d4af37;
+      border-top: 4px solid #d4af37;
+      border-radius: 0 15px 0 0;
+      transform-origin: top right;
+      transform: rotate(-30deg);
+      transition: transform 0.8s ease-in-out;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .tone-arm::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: -8px;
+      width: 12px;
+      height: 18px;
+      background: #888;
+      border-radius: 3px;
+    }
+
+    .spinning {
+      animation: spinRecord 2.5s linear infinite !important;
+    }
+
+    .arm-active {
+      transform: rotate(10deg) !important;
+    }
+
+    @keyframes spinRecord {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    #statusText {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #ff6b6b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الواجهة الأولى -->
+  <div id="screen1" class="container">
+    <h2 style="color: #d4af37; margin-bottom: 10px;">أهلاً بكِ شهدتي</h2>
+    <p style="color: #aaa; font-size: 0.9rem;">اضغطي للانتقال للواجهة الموسيقية</p>
+    <button class="btn" onclick="startApp()">اضغطي هنا شهدتي</button>
+  </div>
+
+  <!-- الواجهة الثانية -->
+  <div id="screen2" class="container hidden">
+    <h3 style="color: #d4af37; margin-bottom: 15px;">مشغل شهدتي الكلاسيكي</h3>
+
+    <div class="player-box">
+      <div id="arm" class="tone-arm"></div>
+      <div id="vinylRecord" class="record">
+        <div class="record-label"></div>
+      </div>
+    </div>
+
+    <button id="playBtn" class="btn" onclick="toggleAudio()">تشغيل الموسيقى</button>
+    <div id="statusText"></div>
+  </div>
+
+  <!-- ملف الصوت -->
+  <audio id="myAudio" src="song.mp3" preload="auto" playsinline webkit-playsinline></audio>
+
+  <script>
+    var audio = document.getElementById('myAudio');
+    var record = document.getElementById('vinylRecord');
+    var arm = document.getElementById('arm');
+    var btn = document.getElementById('playBtn');
+    var statusText = document.getElementById('statusText');
+
+    function startApp() {
+      document.getElementById('screen1').classList.add('hidden');
+      document.getElementById('screen2').classList.remove('hidden');
+      
+      // تهيئة الصوت
+      audio.play().then(function() {
+        audio.pause();
+      }).catch(function(e) {
+        console.log("Audio prep:", e);
+      });
+    }
+
+    function toggleAudio() {
+      statusText.innerText = "";
+      if (audio.paused) {
+        var playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.then(function() {
+            record.classList.add('spinning');
+            arm.classList.add('arm-active');
+            btn.innerText = "إيقاف الموسيقى";
+          }).catch(function(error) {
+            console.log("Error:", error);
+            statusText.innerText = "تعذر العثور على ملف song.mp3 أو تشغيله.";
+          });
+        }
+      } else {
+        audio.pause();
+        record.classList.remove('spinning');
+        arm.classList.remove('arm-active');
+        btn.innerText = "تشغيل الموسيقى";
+      }
+    }
+  </script>
+
+</body>
+</html>
